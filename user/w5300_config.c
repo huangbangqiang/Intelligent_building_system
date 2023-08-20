@@ -313,6 +313,7 @@ if((dns_get_ip_flag == 1) && (retval == DHCP_IP_LEASED) && !connOK)
 			send_retry_count++;
 			if(send_retry_count > 3)
 			{
+				printf("resend\r\n");
 				aliyun_init();
 				break;
 			}
@@ -358,11 +359,20 @@ int json_decode(char *msg)
 					else if(!strcmp(*temp,"Relay3"))
 						relay_on(RELAY3_Pin);
 					else if(!strcmp(*temp,"Relay4"))
+					{
+						HAL_GPIO_WritePin(BUZZER1_GPIO_Port,BUZZER1_Pin,GPIO_PIN_RESET);
 						relay_on(RELAY4_Pin);
+					}
 					else if(!strcmp(*temp,"Relay5"))
+					{
+						HAL_GPIO_WritePin(BUZZER2_GPIO_Port,BUZZER2_Pin,GPIO_PIN_RESET);
 						relay_on(RELAY5_Pin);
+					}
 					else if(!strcmp(*temp,"Relay6"))
+					{
 						relay_on(RELAY6_Pin);
+						HAL_GPIO_WritePin(BUZZER3_GPIO_Port,BUZZER3_Pin,GPIO_PIN_RESET);
+					}
 					break;
 				}
 				if(!strcmp(Relay->valuestring,"0"))
@@ -374,11 +384,20 @@ int json_decode(char *msg)
 					else if(!strcmp(*temp,"Relay3"))
 						relay_off(RELAY3_Pin);
 					else if(!strcmp(*temp,"Relay4"))
+					{
+						HAL_GPIO_WritePin(BUZZER1_GPIO_Port,BUZZER1_Pin,GPIO_PIN_SET);
 						relay_off(RELAY4_Pin);
+					}
 					else if(!strcmp(*temp,"Relay5"))
+					{
+						HAL_GPIO_WritePin(BUZZER2_GPIO_Port,BUZZER2_Pin,GPIO_PIN_SET);
 						relay_off(RELAY5_Pin);
+					}
 					else if(!strcmp(*temp,"Relay6"))
+					{
+						HAL_GPIO_WritePin(BUZZER3_GPIO_Port,BUZZER3_Pin,GPIO_PIN_SET);
 						relay_off(RELAY6_Pin);
+					}
 					break;
 				}
 			}

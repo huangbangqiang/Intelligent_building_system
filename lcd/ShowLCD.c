@@ -112,7 +112,6 @@ void refresh_lcd(void)
 {
 	if(refresh_lcd_1s_time_handler >= 60)
 	{
-		printf("!!!\r\n");
 		refresh_lcd_1s_time_handler = 0;
 		LCD_Init();
 		show_lcd();

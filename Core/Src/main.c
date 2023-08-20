@@ -103,34 +103,33 @@ int main(void)
   MX_TIM2_Init();
   MX_USART1_UART_Init();
   MX_ADC1_Init();
-  MX_TIM3_Init();
   MX_TIM4_Init();
   /* USER CODE BEGIN 2 */
 	
 	
-	w5300_init();
-	HAL_TIM_Base_Start_IT(&htim2);
-  HAL_ADCEx_Calibration_Start(&hadc1);
-	dhcp_init();
-	dns_init();
-  LCD_Init();
+	w5300_init();//w5300 chip initialization and link detection
+	HAL_TIM_Base_Start_IT(&htim2);//Open timer 2 for creating 1ms and 1s interrupts
+  HAL_ADCEx_Calibration_Start(&hadc1);//Turn on the ADC to detect combustible gases
+	dhcp_init();//DHCP Init
+	dns_init();//DNS Init
+  LCD_Init();//LCD Init
 	
   //set_default_mqvalue();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	show_lcd();
+	show_lcd();//Displays default content on the lcd screen
   while (1)
   {   
-		do_dhcp();
-		do_dns();
-    detection_mq();
-		keep_aliyun();
-		sensor_time_send();
-    Detection_key();
-    update_lcd();
-		refresh_lcd();
+		do_dhcp();//Obtain an IP address using DHCP
+		do_dns();//Resolve the MQTT server domain name using DNS
+    detection_mq();//Detect combustible gas sensors and flame sensors
+		keep_aliyun();//Keep alive MQTT connections
+		sensor_time_send();//Periodically report data to the MQTT server
+    Detection_key();//Detect the alarm button in the user area and the eliminate alarm button in the administrator area
+    update_lcd();//Update content to LCD screen
+		refresh_lcd();//Refresh the LCD screen to prevent motor interference
 		HAL_Delay(20);
     /* USER CODE END WHILE */
 
