@@ -107,30 +107,28 @@ int main(void)
   /* USER CODE BEGIN 2 */
 	
 	
-	w5300_init();//w5300 chip initialization and link detection
-	HAL_TIM_Base_Start_IT(&htim2);//Open timer 2 for creating 1ms and 1s interrupts
+  w5300_init();//w5300 chip initialization and link detection,in file w5300_config.c
+  HAL_TIM_Base_Start_IT(&htim2);//Open timer 2 for creating 1ms and 1s interrupts
   HAL_ADCEx_Calibration_Start(&hadc1);//Turn on the ADC to detect combustible gases
-	dhcp_init();//DHCP Init
-	dns_init();//DNS Init
-  LCD_Init();//LCD Init
-	
-  //set_default_mqvalue();
+  dhcp_init();//DHCP Init,in file w5300_config.c
+  dns_init();//DNS Init,in file w5300_config.c
+  LCD_Init();//LCD Init,in file lcd.c
+  show_lcd();//Displays default content on the lcd screen,in file ShowLCD.c	
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-	show_lcd();//Displays default content on the lcd screen
   while (1)
   {   
-		do_dhcp();//Obtain an IP address using DHCP
-		do_dns();//Resolve the MQTT server domain name using DNS
-    detection_mq();//Detect combustible gas sensors and flame sensors
-		keep_aliyun();//Keep alive MQTT connections
-		sensor_time_send();//Periodically report data to the MQTT server
-    Detection_key();//Detect the alarm button in the user area and the eliminate alarm button in the administrator area
-    update_lcd();//Update content to LCD screen
-		refresh_lcd();//Refresh the LCD screen to prevent motor interference
-		HAL_Delay(20);
+    do_dhcp();//Obtain an IP address using DHCP,in file w5300_config.c 
+    do_dns();//Resolve the MQTT server domain name using DNS,in file w5300_config.c
+    detection_mq();//Detect combustible gas sensors and flame sensors,in file mq4.c
+    keep_aliyun();//Keep alive MQTT connections,in file w5300_config.c
+    sensor_time_send();//Periodically report data to the MQTT server,in file mq4.c
+    Detection_key();//Detect the alarm button in the user area and the eliminate alarm button in the administrator area,in file HW_key.c
+    update_lcd();//Update content to LCD screen,in file ShowLCD.c
+    refresh_lcd();//Refresh the LCD screen to prevent motor interference,in file ShowLCD.c
+    HAL_Delay(20);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
